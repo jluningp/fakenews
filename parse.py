@@ -62,3 +62,12 @@ class Parser(object):
         data["columns"] = self.columns
         return data
  
+    # Returns the number of columns in the dataset
+    # (i.e., the length of the feature vector)
+    def num_columns(self):
+        return len(self.columns)
+    
+    # Returns the number of rows in the dataset
+    # (i.e., the number of feature vectors)
+    def num_rows(self):
+        return len(self.labels)
