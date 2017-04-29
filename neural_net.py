@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from scipy.stats import expit
+from scipy.special import expit
 
 class NeuralNet:
   def __init__(self, structure, learning_rate):
