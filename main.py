@@ -88,17 +88,17 @@ def main():
     args = parser.parse_args()
 
     if((not args.train) and (not args.classify)):
-        print("ERROR: -t or -f flag required")
+        print("ERROR: -t or -c flag required")
         print("Type main --help for usage")
         return 1
 
     if((args.train) and (args.classify)):
-        print("ERROR: -t and -f flags cannot be used at the same time")
+        print("ERROR: -t and -c flags cannot be used at the same time")
         print("Type main --help for usage")
         return 1
 
     if((args.train) and ((not args.learning_rate) or (not args.hidden_layers) or (not args.iterations))):
-        print("ERROR: -t, -l, and -h flags must be used together")
+        print("ERROR: -t, -l, -n, and -i flags must be used together")
         print("Type main --help for usage")
         return 1
 
