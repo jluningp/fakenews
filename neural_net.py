@@ -22,10 +22,10 @@ class NeuralNet:
     self.num_outputs = structure['num_outputs']
     self.num_hidden = structure['num_hidden']
     self.learning_rate = learning_rate
-    self.input_to_hidden = (np.random.rand(num_inputs+1, num_hidden) * 0.1 - 0.05) # 2D array of weights
-    self.hidden_to_layer = (np.random.rand(num_hidden, num_hidden) * 0.1 - 0.05) # 2D array of weights
-    self.layer_to_output = (np.random.rand(num_hidden, num_outputs) * 0.1 - 0.05) # 2D array of weights
-    self.output = np.zeros(num_outputs)
+    self.input_to_hidden = (np.random.rand(self.num_inputs+1, self.num_hidden) * 0.1 - 0.05) # 2D array of weights
+    self.hidden_to_layer = (np.random.rand(self.num_hidden, self.num_hidden) * 0.1 - 0.05) # 2D array of weights
+    self.layer_to_output = (np.random.rand(self.num_hidden, self.num_outputs) * 0.1 - 0.05) # 2D array of weights
+    self.output = np.zeros(self.num_outputs)
 
   def get_weights(self):
     """

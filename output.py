@@ -14,7 +14,7 @@ class ReaderWriter(object):
                 csvwriter.writerow([i] + line.tolist())
 
         #writes the layers
-        with open(filename, 'wb') as csvfile:
+        with open(filename, 'wt') as csvfile:
             csvwriter = csv.writer(csvfile)
             print("Writing convolution layer weights...")
             write_layer(0, clayer, csvwriter)

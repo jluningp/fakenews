@@ -1,13 +1,21 @@
 import csv
 import numpy as np
+import time
 
 class Parser(object):
 
     # Creates a Parser object
     # filename: the name of the csv file to be parsed
+    def __init__(self, filename):
+        self.filename = filename
+        self.columns = None
+        self.features = None
+        self.labels = None
+
+
     # Instantiates the columns, features, and labels fields by
     # parsing the csv
-    def __init__(self, filename):
+    def parse(self):
         def make_count(a):
             if a == "":
                 return 0
@@ -20,7 +28,7 @@ class Parser(object):
             else:
                 return 0
             
-        with open(filename, 'rt') as feature_file:
+        with open(self.filename, 'rt') as feature_file:
             feature_reader = csv.reader(feature_file)
 
             #separates each row into (label, feature) tuples
@@ -38,8 +46,8 @@ class Parser(object):
                                   np.array([[make_count(x) for x in b] for (a, b) in vector]))
 
             #All feature, label vectors without the column headings
-            self.features = features[1:]
-            self.labels = labels[1:]
+            self.features = features
+            self.labels = labels
 
     # Gets the data split between a train set and a test set
     # Train percentage set to 85% by default (don't now how we should split it, just guessed lol)
