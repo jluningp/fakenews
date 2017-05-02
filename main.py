@@ -73,7 +73,7 @@ def train(info):
     info.nn.train(info.dataset["train"][0], info.dataset["train"][1], iterations=info.iterations)
     
     ReaderWriter.write(info.weightfile, info.nn.input_to_hidden, info.nn.hidden_to_layer, info.nn.layer_to_output)
-
+    
     return info.nn.test(info.dataset["test"][0], info.dataset["test"][1])
     
 def main():
@@ -83,7 +83,7 @@ def main():
     parser.add_argument("-t", "--train", metavar="train_percentage", type=float, action="store", help="train the neural network")
     parser.add_argument("-c", "--classify", metavar="xml_file", action="store", help="the XML file to be classified")
     parser.add_argument("-l", "--learning-rate", metavar="learning_rate", type=float, action="store", help="the learning rate of the neural network")
-    parser.add_argument("-n", "--hidden-layers", metavar="number_of_hidden_layers", type=int, action="store", help="the number of hidden layers")
+    parser.add_argument("-n", "--hidden-layer-size", metavar="number_of_hidden_layers", type=int, action="store", help="the number of elements in a hidden layer")
     parser.add_argument("-i", "--iterations", metavar="iters", action="store", help="the number of iterations to train with")
     args = parser.parse_args()
 
@@ -97,14 +97,14 @@ def main():
         print("Type main --help for usage")
         return 1
 
-    if((args.train) and ((not args.learning_rate) or (not args.hidden_layers) or (not args.iterations))):
+    if((args.train) and ((not args.learning_rate) or (not args.hidden_layer_size) or (not args.iterations))):
         print("ERROR: -t, -l, -n, and -i flags must be used together")
         print("Type main --help for usage")
         return 1
 
-    info = Info(args.datafile, args.classify, args.weightfile, args.train, args.learning_rate, args.hidden_layers, args.iterations)
+    info = Info(args.datafile, args.classify, args.weightfile, args.train, args.learning_rate, args.hidden_layer_size, args.iterations)
                       
-    if(args.train and args.learning_rate and args.hidden_layers and args.iterations):
+    if(args.train and args.learning_rate and args.hidden_layer_size and args.iterations):
         accuracy = train(info)
         print("---TRAINING FINISHED---")
         print("Accuracy: {}".format(accuracy))

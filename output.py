@@ -16,10 +16,10 @@ class ReaderWriter(object):
         #writes the layers
         with open(filename, 'wt') as csvfile:
             csvwriter = csv.writer(csvfile)
-            print("Writing convolution layer weights...")
+            print("Writing first hidden layer  weights...")
             write_layer(0, clayer, csvwriter)
 
-            print("Writing hidden layer weights...")
+            print("Writing second hidden layer weights...")
             write_layer(1, hlayer, csvwriter)
 
             print("Writing output layer weights...")
