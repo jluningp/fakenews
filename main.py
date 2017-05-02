@@ -45,16 +45,16 @@ class Info(object):
         
     def nn_from_weights(self):
         self.read_in_weights()
-        num_inputs = len(self.weights["convolution"]) - 1
+        num_inputs = len(self.weights["hidden1"]) - 1
         num_outputs = len(self.weights["output"][0])
-        num_hidden = len(self.weights["convolution"][0])
+        num_hidden = len(self.weights["hidden1"][0])
         structure = dict()
         structure["num_inputs"] = num_inputs
         structure["num_outputs"] = num_outputs
         structure["num_hidden"] = num_hidden
         nn = NeuralNet(structure, 0.5)
-        nn.input_to_hidden = self.weights["convolution"]
-        nn.hidden_to_layer = self.weights["hidden"]
+        nn.input_to_hidden = self.weights["hidden1"]
+        nn.hidden_to_layer = self.weights["hidden2"]
         nn.layer_to_output = self.weights["output"]
         self.nn = nn
         
@@ -64,6 +64,14 @@ def classify(info):
 
     result = info.nn.forward_propagate(info.vector)
     return result
+
+def final_test(info):
+    info.read_in_dataset()
+    info.nn_from_weights()
+
+    result = info.nn.test(info.dataset["final"][0], info.dataset["final"][1])
+    return result
+
 
 def train(info):
     print("Initializing neural network...")
@@ -85,9 +93,10 @@ def main():
     parser.add_argument("-l", "--learning-rate", metavar="learning_rate", type=float, action="store", help="the learning rate of the neural network")
     parser.add_argument("-n", "--hidden-layer-size", metavar="number_of_hidden_layers", type=int, action="store", help="the number of elements in a hidden layer")
     parser.add_argument("-i", "--iterations", metavar="iters", action="store", help="the number of iterations to train with")
+    parser.add_argument("-f", "--final", action="store_true", help="test on the final testing data")
     args = parser.parse_args()
 
-    if((not args.train) and (not args.classify)):
+    if((not args.train) and (not args.classify) and (not args.final)):
         print("ERROR: -t or -c flag required")
         print("Type main --help for usage")
         return 1
@@ -121,6 +130,13 @@ def main():
             print("Judgement: FAKE")
         return 0
 
+    if(args.final):
+        accuracy = final_test(info)
+        print("")
+        print("----RESULTS---")
+        print("Error: {}".format(accuracy))
+
+        
     return 1
         
 if __name__ == "__main__": main()

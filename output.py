@@ -35,12 +35,12 @@ class ReaderWriter(object):
         #helper to assign keys
         def layer_name(i):
             if i == 0:
-                return "convolution"
+                return "hidden1"
             if i == 1:
-                return "hidden"
+                return "hidden2"
             else:
                 return "output"
-
+            
         #loads the weight matrices into layer_dict
         with open(filename, 'rt') as csvfile:
             csvreader = csv.reader(csvfile)
