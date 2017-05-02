@@ -51,10 +51,10 @@ class NeuralNet:
     x = np.append(x, [1])
     self.prev_input = x
 
-    self.sig_x = expit(np.dot(x, self.input_to_hidden))
-    self.sig_y = expit(np.dot(self.sig_x, self.hidden_to_layer))
+    self.hidden_output = expit(np.dot(x, self.input_to_hidden))
+    self.layer_output = expit(np.dot(self.hidden_output, self.hidden_to_layer))
 
-    self.output = expit(np.dot(self.sig_y, self.layer_to_output))
+    self.output = expit(np.dot(self.layer_output, self.layer_to_output))
 
     return self.output
     
@@ -68,12 +68,12 @@ class NeuralNet:
     
     # find derivatives
     deriv_output = (target - self.output) * self.output * (1 - self.output)
-    deriv_layer = self.sig_y * (1 - self.sig_y) * np.dot(self.layer_to_output, deriv_output)
-    deriv_hidden = self.sig_x * (1 - self.sig_x) * np.dot(self.hidden_to_layer, deriv_layer)
+    deriv_layer = self.layer_output * (1 - self.layer_output) * np.dot(self.layer_to_output, deriv_output)
+    deriv_hidden = self.hidden_output * (1 - self.hidden_output) * np.dot(self.hidden_to_layer, deriv_layer)
 
     # update the weights
-    self.layer_to_output = self.layer_to_output + (self.learning_rate * np.outer(self.sig_y, deriv_output))
-    self.hidden_to_layer = self.hidden_to_layer + (self.learning_rate * np.outer(self.sig_x, deriv_layer))
+    self.layer_to_output = self.layer_to_output + (self.learning_rate * np.outer(self.layer_output, deriv_output))
+    self.hidden_to_layer = self.hidden_to_layer + (self.learning_rate * np.outer(self.hidden_output, deriv_layer))
     self.input_to_hidden = self.input_to_hidden + (self.learning_rate * np.outer(self.prev_input, deriv_hidden))
 
 
