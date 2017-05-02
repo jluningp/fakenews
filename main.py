@@ -107,7 +107,7 @@ def main():
     if(args.train and args.learning_rate and args.hidden_layer_size and args.iterations):
         accuracy = train(info)
         print("---TRAINING FINISHED---")
-        print("Accuracy: {}".format(accuracy))
+        print("Error: {}".format(accuracy))
         return 0
 
     if(args.classify):

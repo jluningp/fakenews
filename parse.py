@@ -61,12 +61,18 @@ class Parser(object):
             return
 
         #find the index of the split
-        index = int(len(self.labels) * train_percentage)
-
+        index = int(float(len(self.labels)) * train_percentage * (2.0 / 3.0))
+        end = int(float(len(self.labels)) * (2.0 / 3.0))
+        
+        print("Splitting data into")
+        print("  - {} train pairs".format(index))
+        print("  - {} test pairs".format(end - index))
+        print("  - {} final testing pairs".format(len(self.labels) - end))
         #split into train and test, return a dictionary with relevant info
         data = dict()
         data["train"] = (self.features[:index], self.labels[:index])
-        data["test"] = (self.features[index:], self.labels[index:])
+        data["test"] = (self.features[index:end], self.labels[index:end])
+        data["final"] = (self.features[end:], self.labels[end:])
         data["columns"] = self.columns
         return data
  
