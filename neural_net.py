@@ -99,8 +99,9 @@ class NeuralNet:
             elif self.learning_rate < 0.5 and err > prev_error + threshold:
                 self.learning_rate += 0.01
             prev_error = err
+            print(err)
             self.back_propagate(Y[row])
-
+        print(self.learning_rate)
 
         
   def test(self, X, Y):
