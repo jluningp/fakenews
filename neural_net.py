@@ -88,13 +88,16 @@ class NeuralNet:
     - iterations is how many passes over X should be completed.
     """
     prev_error = 0
+    threshold = 0.01
     for i in range(iterations):
         for row in range(len(X)):
-            err = abs(self.forward_propagate(X[row]) - Y[row])
-            if(err < prev_error):
-                self.learning_rate *= 0.9
-            else:
-                self.learning_rate *= 1.2
+            temp = self.forward_propagate(X[row])
+            err = abs(temp - Y[row])
+            print(self.learning_rate)
+            if(err < prev_error and self.learning_rate > 0.001):
+                self.learning_rate -= 0.001
+            elif self.learning_rate < 0.5 and err > prev_error + threshold:
+                self.learning_rate += 0.01
             prev_error = err
             self.back_propagate(Y[row])
 
