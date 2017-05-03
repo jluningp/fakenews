@@ -89,7 +89,11 @@ class NeuralNet:
     """
     for i in range(iterations):
         for row in range(len(X)):
-            self.forward_propagate(X[row])
+            err = self.forward_propagate(X[row])
+            if(err == Y[row]):
+                self.learning_rate *= 0.9
+            else:
+                self.learning_rate *= 1.2
             self.back_propagate(Y[row])
 
   def test(self, X, Y):
