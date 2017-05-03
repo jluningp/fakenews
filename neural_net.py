@@ -96,6 +96,8 @@ class NeuralNet:
                 self.learning_rate *= 1.2
             self.back_propagate(Y[row])
 
+
+        
   def test(self, X, Y):
     """
     Tests the NN on observations X with labels Y.

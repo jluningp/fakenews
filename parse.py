@@ -19,8 +19,11 @@ class Parser(object):
         def make_count(a):
             if a == "":
                 return 0
+            elif a == "true":
+                return 1
             else:
-                return int(float(a))
+                return 0
+                #return int(float(a))
 
         def make_bool(a):
             if a == "REAL":
@@ -71,6 +74,7 @@ class Parser(object):
         #split into train and test, return a dictionary with relevant info
         data = dict()
         data["train"] = (self.features[:index], self.labels[:index])
+        print(data["train"])
         data["test"] = (self.features[index:end], self.labels[index:end])
         data["final"] = (self.features[end:], self.labels[end:])
         data["columns"] = self.columns
