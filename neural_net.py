@@ -88,10 +88,13 @@ class NeuralNet:
     - iterations is how many passes over X should be completed.
     """
     for i in range(iterations):
-        for row in range(len(X)):
-            self.forward_propagate(X[row])
-            self.back_propagate(Y[row])
+      print("Running iteration {}".format(i))
+      for row in range(len(X)):
+        self.forward_propagate(X[row])
+        self.back_propagate(Y[row])
 
+
+        
   def test(self, X, Y):
     """
     Tests the NN on observations X with labels Y.
@@ -103,8 +106,18 @@ class NeuralNet:
 
     Returns the mean squared error.
     """
+    #error = 0
+    #for row in range(len(X)):
+    #    accuracy = (self.forward_propagate(X[row]) - Y[row])
+    #    error += (np.dot(accuracy, accuracy)) * 1.0 / len(Y) * 1.0
+
+    def step(x):
+      if x >= 0.5:
+        return 1
+      else:
+        return 0
+    
     error = 0
     for row in range(len(X)):
-        accuracy = (self.forward_propagate(X[row]) - Y[row])
-        error += (np.dot(accuracy, accuracy)) * 1.0 / len(Y) * 1.0
-    return error
+      error += (step(self.forward_propagate(X[row])) - step(Y[row]))**2
+    return (float(error) / float(len(X)))
