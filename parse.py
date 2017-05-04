@@ -13,6 +13,12 @@ class Parser(object):
         self.labels = None
 
 
+    def get_columns(self):
+        with open(self.filename, 'rt') as feature_file:
+            feature_reader = csv.reader(feature_file)
+            vector = next(feature_reader)
+            return vector[0][2:]
+        
     # Instantiates the columns, features, and labels fields by
     # parsing the csv
     def parse(self):
@@ -74,7 +80,6 @@ class Parser(object):
         #split into train and test, return a dictionary with relevant info
         data = dict()
         data["train"] = (self.features[:index], self.labels[:index])
-        print(data["train"])
         data["test"] = (self.features[index:end], self.labels[index:end])
         data["final"] = (self.features[end:], self.labels[end:])
         data["columns"] = self.columns

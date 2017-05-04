@@ -61,7 +61,7 @@ class Info(object):
 def classify(info):
     info.read_in_xml()
     info.nn_from_weights()
-
+    
     result = info.nn.forward_propagate(info.vector)
     return result
 
@@ -124,7 +124,7 @@ def main():
         print("")
         print("----RESULTS---")
         print("Score: {}% real".format(round(result[0] * 100, 2)))
-        if result > 0.5:
+        if result > 0.75:
             print("Judgement: REAL")
         else:
             print("Judgement: FAKE")

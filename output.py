@@ -24,7 +24,6 @@ class ReaderWriter(object):
 
             print("Writing output layer weights...")
             write_layer(2, olayer, csvwriter)
-
             
     # Reads the weight matrices from filename. Use this
     # to load the saved weights.

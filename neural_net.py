@@ -89,17 +89,11 @@ class NeuralNet:
     """
     prev_error = 1
     for i in range(iterations):
-        for row in range(len(X)):
-            err = abs(self.forward_propagate(X[row]) - Y[row])
-            if(err + .1 < prev_error):
-              print("got here")
-              self.learning_rate *= 0.98
-            else:
-              self.learning_rate *= 1.0
-            prev_error = err
-            print(err)
-            self.back_propagate(Y[row])
-        print(self.learning_rate)
+      print("Running iteration {}".format(i))
+      for row in range(len(X)):
+        self.forward_propagate(X[row])
+        self.back_propagate(Y[row])
+        #print(self.learning_rate)
 
         
   def test(self, X, Y):

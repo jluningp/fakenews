@@ -2,6 +2,8 @@ import numpy as np
 import xml.etree.ElementTree as ET
 import json
 import urllib2
+from boilerpipe.extract import Extractor
+import time
 
 class ParseXML(object):
 
@@ -45,20 +47,21 @@ class ParseXML(object):
 
 
     def getjson(self):
-        response = urllib2.urlopen("http://boilerpipe-web.appspot.com/extract?url=" + self.filename + "&output=json")
-        webContent = response.read()
-        jfile = json.loads(webContent)
+        extractor = Extractor(extractor="ArticleExtractor", url=self.filename)
+        text = extractor.getText()
+        #return (text, "")
+        #return("", text)
+        return (text.split('\n', 1)[0], "\n".join(text.split('\n', 1)[1:]))
 
-        return (jfile["response"]["content"], jfile["response"]["title"])
-            
     def parse(self):
-        (body, title) = self.getjson()        
-        
+        (body, title) = self.getjson()
+
         self.body = body.encode('utf-8').replace(",", "")
         self.title = title.encode('utf-8').replace(",", "")
 
         for word in self.title_words:
-            self.count100["title:" + word] = self.title.count(word)
+            if self.title.count(word) > 0:
+                self.count100["title:" + word] = 1 
 
         self.count100["textNUM_TOKENS"] = len(self.body.split())
         self.count100["titleNUM_TOKENS"] = len(self.title.split())
@@ -74,10 +77,6 @@ class ParseXML(object):
                 return self.count100[x]
             else:
                 return 0
-        return np.array([get_count(x) for x in self.columns])
-            
-
-    
-p = ParseXML("http://www.theonion.com/article/trump-promises-government-will-continue-fund-all-e-55839", ["text:stuff", "text:Trump", "title:Trump"])
-
-p.getjson()
+        
+        result = np.array([get_count(x) for x in self.columns])
+        return result
