@@ -1,6 +1,6 @@
 import argparse
 from parse import Parser
-from xml_parser import ParseXML
+from html_parser import ParseHTML
 from output import ReaderWriter
 from neural_net import NeuralNet
 
@@ -28,7 +28,7 @@ class Info(object):
 
     def read_in_xml(self):
         self.read_in_dataset()
-        parser = ParseXML(self.xmlfile, self.dataset["columns"])
+        parser = ParseHTML(self.xmlfile, self.dataset["columns"])
         parser.parse()
         self.vector = parser.make_vector()
 
@@ -38,21 +38,17 @@ class Info(object):
     def nn_to_train(self):
         self.read_in_dataset()
         structure = dict()
-        structure["num_inputs"] = len(self.dataset["columns"])
-        structure["num_hidden"] = int(self.hidden_layers)
-        structure["num_outputs"] = 1
-        self.nn = NeuralNet(structure, self.learning_rate)
+        num_inputs = len(self.dataset["columns"])
+        num_hidden = int(self.hidden_layers)
+        num_outputs = 1
+        self.nn = NeuralNet(num_inputs, num_hidden, num_outputs, self.learning_rate)
         
     def nn_from_weights(self):
         self.read_in_weights()
         num_inputs = len(self.weights["hidden1"]) - 1
         num_outputs = len(self.weights["output"][0])
         num_hidden = len(self.weights["hidden1"][0])
-        structure = dict()
-        structure["num_inputs"] = num_inputs
-        structure["num_outputs"] = num_outputs
-        structure["num_hidden"] = num_hidden
-        nn = NeuralNet(structure, 0.5)
+        nn = NeuralNet(num_inputs, num_hidden, num_outputs, 0.5)
         nn.input_to_hidden = self.weights["hidden1"]
         nn.hidden_to_layer = self.weights["hidden2"]
         nn.layer_to_output = self.weights["output"]

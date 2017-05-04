@@ -29,7 +29,6 @@ class Parser(object):
                 return 1
             else:
                 return 0
-                #return int(float(a))
 
         def make_bool(a):
             if a == "REAL":
